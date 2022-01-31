@@ -1,0 +1,30 @@
+<div class="container" style="padding-top:40px;">  
+    <div class="row">  
+      <div class="col-md-6 mx-auto">  
+        <div class="card mx-4">  
+          <div class="card-body p-4">  
+            <form name="UserForm" [formGroup]="UserForm" (ngSubmit)="UserForm.valid && onFormSubmit()">  
+              <h1 style="text-align:center">Register</h1> 
+              <p style="color:#E92626;font-size:15px;font-weight:normal" Class="error">  
+                {{errorMessage}}  
+              </p>   
+              <p style="color:green;font-size:15px;font-weight:normal" Class="success">  
+                {{message}}  
+              </p> 
+              <div class="input-group mb-3">            
+                <input type="text" class="form-control" placeholder="Username" id="Username" name="Username" formControlName="UserName" required>  
+              </div>  
+
+              <div class="input-group mb-3">  
+                <input type="password" class="form-control" placeholder="Password" id="Password" name="Password" formControlName="Password" required>  
+              </div>   
+              <div style="display:flex;padding: 10px;">  
+                <button type="submit" class="btn btn-block btn-success" [disabled]="!UserForm.valid">Register</button>  
+                <a [routerLink]="['/login']" class="btn btn-primary px-4" style="margin-left: 20px;">Login</a>         
+              </div> 
+            </form>  
+          </div>  
+        </div>  
+      </div>  
+    </div>  
+  </div>  
