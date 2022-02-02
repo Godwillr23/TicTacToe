@@ -62,4 +62,17 @@ export class AppService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };  
     return this.http.post<any>(this.Url + 'api/gameplay/PlayMove/', move, httpOptions);  
   } 
+
+  LatestGamePlayByUserId(username : any){ 
+     return this.http.post<any>(this.Url + 'api/gameplay/LatestGamePlayByUserId?username='+ username,{ headers: this.header}) ; 
+} 
+
+ResumeGame(gameCode : any){ 
+   return this.http.post<any>(this.Url + 'api/gameplay/ResumeGame?gameCode='+ gameCode,{ headers: this.header}) ; 
+} 
+
+SavedGame(gameCode : any){ 
+   return this.http.post<any>(this.Url + 'api/gameplay/SavedGame?gameCode='+ gameCode,{ headers: this.header}) ; 
+} 
+
 } 

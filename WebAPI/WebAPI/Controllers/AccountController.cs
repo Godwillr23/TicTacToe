@@ -32,6 +32,7 @@ namespace WebAPI.Controllers
                 PlayerTable player = new PlayerTable();
                 if (player.PlayerId == 0)
                 {
+                    //Validate if user already exist
                     bool userAlreadyExists = db.PlayerTables.Any(x => x.UserName == User.UserName);
 
                     if (userAlreadyExists)
@@ -105,6 +106,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        //method to Logout from the system
         [HttpPost]
         public Response Logout(string username)
         {
@@ -117,6 +119,7 @@ namespace WebAPI.Controllers
             };
         }
 
+        // Update user's login status.
         protected void UpdateLogginStatus(string Username, string status)
         {
             PlayerTable update = (from p in db.PlayerTables
@@ -126,6 +129,8 @@ namespace WebAPI.Controllers
             update.isLoggedIn = status;
             db.SaveChanges();
         }
+
+        //Get the current userId based on username
         [HttpPost]
         public IHttpActionResult getUserId(string username)
         {

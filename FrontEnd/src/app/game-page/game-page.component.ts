@@ -24,6 +24,11 @@ export class GamePageComponent implements OnInit {
  turn:any;
  turnUsername:any;
 
+ gamePlayType:any;
+ GameResults:any;
+ PlayDate:any;
+ GamePlayCode:any;
+
   constructor(
     private router:Router,
 		private modalService: NgbModal,
@@ -41,6 +46,40 @@ export class GamePageComponent implements OnInit {
       this.router.navigate(['/login']);  
     }
 
+  }
+
+  getLastPlayedGame(){
+
+	this.appService.LatestGamePlayByUserId(this.username).subscribe(
+		data => {
+			this.gamePlayType = data.GamePlayType;
+			this.GameResults = data.GameResults;
+			this.PlayDate = data.DateCreated;
+			this.GamePlayCode = data.GameCode;
+
+			this.openModal('GameType','LastPlayedGame');
+		}
+	);
+  }
+
+  resumeGame(gameCode:any){
+	this.appService.ResumeGame(gameCode).subscribe(
+		data => {
+
+			if(data){
+				console.log(data.length);
+				for(var i=0;i<data.length;i++){
+					$("#"+data.MoveYX).css("background-color",data.BackColor);
+					$("."+data.MoveYX).children().prop('disabled','disabled');
+				}
+			   this.openModal('LastPlayedGame','GamePlay');
+
+			}
+			else{
+				this.openModal('LastPlayedGame','GamePlay');
+			}
+		}
+	);
   }
 
 

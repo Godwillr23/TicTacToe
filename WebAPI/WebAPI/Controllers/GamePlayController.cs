@@ -129,12 +129,25 @@ namespace WebAPI.Controllers
 
             return Json(resp);
         }
-        //[HttpPost]
-        //public IHttpActionResult getGamePlayId(int userId)
-        //{
-            //var gamePlay = db.GamePlayTables.OrderBy(x=>x.GamePlayId).Where(a => a.UserId == userId).LastOrDefault();
+        public IHttpActionResult LatestGamePlayByUserId(string username)
+        {
+            var gameplay = db.GamePlayTables.OrderByDescending(x=>x.GamePlayId).Where(a=> a.UserName == username).FirstOrDefault();
 
-            //return Json(gamePlay.GamePlayId);
-        //}
+            return Json(gameplay);
+        }
+
+        public IHttpActionResult ResumeGame(string gameCode)
+        {
+            var game = db.PlayerMoveTables.Where(a => a.GameCode == gameCode).FirstOrDefault();
+
+            return Json(game);
+        }
+
+        public IHttpActionResult SavedGame(string gameCode)
+        {
+            var game = db.SavedGameTables.Where(a => a.GameCode == gameCode).FirstOrDefault();
+
+            return Json(game);
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace WebAPI.Models
     public partial class SavedGameTable
     {
         public int SavedGameId { get; set; }
-        public int GameCode { get; set; }
+        public string GameCode { get; set; }
         public string Challenge { get; set; }
     }
 }
