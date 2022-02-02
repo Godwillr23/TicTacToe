@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Laptop-90\Source\Repos\Godwillr23\TicTacToe-Assessment\WebAPI\WebAPI\Models\TicTacToeModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Laptop-90\source\repos\Godwillr23\TicTacToe-Assessment\WebAPI\WebAPI\Models\TicTacToeModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

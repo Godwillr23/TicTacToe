@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';    
 import { Router } from '@angular/router';    
-import { LoginService } from '../login.service';    
+import { AppService } from '../app.service';    
 import { NgForm, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';    
     
 @Component({    
@@ -18,7 +18,7 @@ export class LoginComponent {
   errorMessage!: string;    
   constructor(
     private router:Router,
-    private LoginService:LoginService,
+    private appService:AppService,
     private formbulider: FormBuilder
     ) { }    
     
@@ -34,7 +34,7 @@ export class LoginComponent {
 
   login(){    
 
-    this.LoginService.Login(this.model).subscribe(    
+    this.appService.Login(this.model).subscribe(    
       data => {    
         if(data.Status == "Success")    
         {       

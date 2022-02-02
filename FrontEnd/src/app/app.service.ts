@@ -1,123 +1,65 @@
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs'
-import { map } from 'rxjs/operators';
-import { HttpClientModule } from '@angular/common/http';
-import io from 'socket.io-client';
-import {Http, RequestOptions,Headers} from '@angular/http';
+import { Injectable } from '@angular/core';  
+import {HttpClient} from '@angular/common/http';  
+import {HttpHeaders} from '@angular/common/http';  
+import { from, Observable } from 'rxjs';  
+import { Register } from "../app/register";  
+import { GamePlay } from './game-play.model';
+import { SaveGame } from './save-game.model';
+import { GameMove } from './game-move.model';
+@Injectable({  
+  providedIn: 'root'  
+}) 
 
 @Injectable()
 export class AppService {
-	public gameGrid = <Array<Object>>[[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-	public BASE_URL = 'http://localhost:4000';
-	public socket:any;
+	Url :string;  
+  //token : string;  
+  header : any;  
+  constructor(private http : HttpClient) {   
+  
+    this.Url = 'http://localhost:49444/';  
+  
+    const headerSettings: {[name: string]: string | string[]; } = {};  
+    this.header = new HttpHeaders(headerSettings);  
+  }  
+  Login(model : any){  
+    return this.http.post<any>(this.Url+'api/account/Login',model,{ headers: this.header}); 
+  }  
 
-  constructor(
-    private http:Http,
-    ) {}
+  register(register:Register)  
+  {  
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };  
+    return this.http.post<any>(this.Url + 'api/account/Register/', register, httpOptions);  
+  }  
 
-	private headerOptions = new RequestOptions({
-		headers: new Headers({ 'Content-Type': 'application/json;charset=UTF-8' })
-	});
+  Logout(username:any){  
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }; 
+    return this.http.post<any>(this.Url + 'api/account/Logout?username='+ username, httpOptions) ;  
+  }  
 
-	//SocketEvent and HTTP call. 
+//   getUserId(username : any){  
+//     return this.http.post<any>(this.Url + 'api/account/getUserId?username='+ username,{ headers: this.header}) ; 
+//   } 
 
-	public getRoomStats() {
-		return new Promise(resolve => {
-			this.http.get(`http://localhost:4000/getRoomStats`).subscribe((data:any) => {
-				resolve(data);
-			});
-		});
-	}
-	
-	// connect the users to socket
-	
-	connectSocket() {
-		this.socket = (io as any)(this.BASE_URL);
-	}
+  creategameplay(creategameplay:GamePlay)  
+  {  
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };  
+    return this.http.post<any>(this.Url + 'api/gameplay/CreateGamePlay/', creategameplay, httpOptions);  
+  } 
 
-	//receive available event.
-	getRoomsAvailable(): any {
-		const observable = new Observable((observer:any) => {
-			this.socket.on('rooms-available', (data:any) => {
-				observer.next(
-					data
-				);
-			});
-			return () => {
-				this.socket.disconnect();
-			};
-		});
-		return observable;
-	}
+//   getGamePlayId(userId : any){  
+//     return this.http.post<any>(this.Url + 'api/gameplay/getGamePlayId?userId='+ userId,{ headers: this.header}) ; 
+//   } 
 
-	///create new room
-	createNewRoom(): any {
-		this.socket.emit('create-room', { 'test': 9909 });
-		const observable = new Observable((observer:any) => {
-			this.socket.on('new-room', (data:any) => {
-				observer.next(
-					data
-				);
-			});
-			return () => {
-				this.socket.disconnect();
-			};
-		});
-		return observable;
-	}
+  savegameplay(savegame:SaveGame)  
+  {  
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };  
+    return this.http.post<any>(this.Url + 'api/gameplay/saveGamePlay/', savegame, httpOptions); 
+  } 
 
-
-	//join new room
-	joinNewRoom(roomNumber:any): any {
-		this.socket.emit('join-room', { 'roomNumber': roomNumber });
-	}
-
-	//receive start-game event.
-	startGame(): any {
-		const observable = new Observable((observer:any) => {
-			this.socket.on('start-game', (data:any) => {
-				observer.next(
-					data
-				);
-			});
-			return () => {
-				this.socket.disconnect();
-			};
-		});
-		return observable;
-	}
-
-	//join new room, create-room event.
-	sendPlayerMove(params:any) {
-		this.socket.emit('send-move', params);
-	}
-
-	//receive start-game event.
-	receivePlayerMove(): any {
-		const observable = new Observable((observer:any) => {
-			this.socket.on('receive-move', (data:any) => {
-				observer.next(
-					data
-				);
-			});
-			return () => {
-				this.socket.disconnect();
-			};
-		});
-		return observable;
-	}
-	// check if any player is leaving the game.
-	playerLeft(): any {
-		const observable = new Observable((observer:any) => {
-			this.socket.on('room-disconnect', (data:any) => {
-				observer.next(
-					data
-				);
-			});
-			return () => {
-				this.socket.disconnect();
-			};
-		});
-		return observable;
-	}
-}
+  playmove(move:GameMove)  
+  {  
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };  
+    return this.http.post<any>(this.Url + 'api/gameplay/PlayMove/', move, httpOptions);  
+  } 
+} 

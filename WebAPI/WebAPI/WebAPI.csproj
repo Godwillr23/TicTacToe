@@ -245,15 +245,24 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GamePlayController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\GamePlayTable.cs">
+      <DependentUpon>TicTacToeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PlayerMoveTable.cs">
+      <DependentUpon>TicTacToeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PlayerTable.cs">
       <DependentUpon>TicTacToeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Response.cs" />
+    <Compile Include="Models\SavedGameTable.cs">
+      <DependentUpon>TicTacToeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TicTacToeModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -355,6 +364,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\GamePlay\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

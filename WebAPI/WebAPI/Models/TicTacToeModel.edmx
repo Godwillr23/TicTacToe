@@ -4,41 +4,67 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TicTacToeDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TicTacToeDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GamePlayTable">
+          <Key>
+            <PropertyRef Name="GamePlayId" />
+          </Key>
+          <Property Name="GamePlayId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameCode" Type="varchar" MaxLength="50" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GamePlayType" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="GameResults" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlayerMoveTable">
+          <Key>
+            <PropertyRef Name="PlayerMoveId" />
+          </Key>
+          <Property Name="PlayerMoveId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameCode" Type="int" Nullable="false" />
+          <Property Name="MoveYX" Type="int" Nullable="false" />
+          <Property Name="BackColor" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="PlayerTable">
           <Key>
-            <PropertyRef Name="UserId" />
+            <PropertyRef Name="PlayerId" />
           </Key>
-          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlayerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isLoggedIn" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="SavedGameTable">
+          <Key>
+            <PropertyRef Name="SavedGameId" />
+          </Key>
+          <Property Name="SavedGameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameCode" Type="int" Nullable="false" />
+          <Property Name="Challenge" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Function Name="Usp_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="Password" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="TicTacToeDBModelStoreContainer">
+          <EntitySet Name="GamePlayTable" EntityType="Self.GamePlayTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayerMoveTable" EntityType="Self.PlayerMoveTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlayerTable" EntityType="Self.PlayerTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SavedGameTable" EntityType="Self.SavedGameTable" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TicTacToeDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="PlayerTable">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
         <EntityContainer Name="TicTacToeDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="PlayerTables" EntityType="Self.PlayerTable" />
           <FunctionImport Name="Usp_Login" ReturnType="Collection(TicTacToeDBModel.Usp_Login_Result)">
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="PlayerTables" EntityType="TicTacToeDBModel.PlayerTable" />
+          <EntitySet Name="PlayerMoveTables" EntityType="TicTacToeDBModel.PlayerMoveTable" />
+          <EntitySet Name="SavedGameTables" EntityType="TicTacToeDBModel.SavedGameTable" />
+          <EntitySet Name="GamePlayTables" EntityType="TicTacToeDBModel.GamePlayTable" />
         </EntityContainer>
         <ComplexType Name="Usp_Login_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -46,21 +72,49 @@
           <Property Type="String" Name="LoginName" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="Password" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <EntityType Name="PlayerTable">
+          <Key>
+            <PropertyRef Name="PlayerId" />
+          </Key>
+          <Property Name="PlayerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isLoggedIn" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PlayerMoveTable">
+          <Key>
+            <PropertyRef Name="PlayerMoveId" />
+          </Key>
+          <Property Name="PlayerMoveId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameCode" Type="Int32" Nullable="false" />
+          <Property Name="MoveYX" Type="Int32" Nullable="false" />
+          <Property Name="BackColor" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SavedGameTable">
+          <Key>
+            <PropertyRef Name="SavedGameId" />
+          </Key>
+          <Property Name="SavedGameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameCode" Type="Int32" Nullable="false" />
+          <Property Name="Challenge" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="GamePlayTable">
+          <Key>
+            <PropertyRef Name="GamePlayId" />
+          </Key>
+          <Property Name="GamePlayId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GamePlayType" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="GameResults" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TicTacToeDBModelStoreContainer" CdmEntityContainer="TicTacToeDBEntities">
-          <EntitySetMapping Name="PlayerTables">
-            <EntityTypeMapping TypeName="TicTacToeDBModel.PlayerTable">
-              <MappingFragment StoreEntitySet="PlayerTable">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Usp_Login" FunctionName="TicTacToeDBModel.Store.Usp_Login">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TicTacToeDBModel.Usp_Login_Result">
@@ -71,6 +125,47 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PlayerTables">
+            <EntityTypeMapping TypeName="TicTacToeDBModel.PlayerTable">
+              <MappingFragment StoreEntitySet="PlayerTable">
+                <ScalarProperty Name="isLoggedIn" ColumnName="isLoggedIn" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerMoveTables">
+            <EntityTypeMapping TypeName="TicTacToeDBModel.PlayerMoveTable">
+              <MappingFragment StoreEntitySet="PlayerMoveTable">
+                <ScalarProperty Name="BackColor" ColumnName="BackColor" />
+                <ScalarProperty Name="MoveYX" ColumnName="MoveYX" />
+                <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+                <ScalarProperty Name="PlayerMoveId" ColumnName="PlayerMoveId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SavedGameTables">
+            <EntityTypeMapping TypeName="TicTacToeDBModel.SavedGameTable">
+              <MappingFragment StoreEntitySet="SavedGameTable">
+                <ScalarProperty Name="Challenge" ColumnName="Challenge" />
+                <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+                <ScalarProperty Name="SavedGameId" ColumnName="SavedGameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GamePlayTables">
+            <EntityTypeMapping TypeName="TicTacToeDBModel.GamePlayTable">
+              <MappingFragment StoreEntitySet="GamePlayTable">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="GameResults" ColumnName="GameResults" />
+                <ScalarProperty Name="GamePlayType" ColumnName="GamePlayType" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+                <ScalarProperty Name="GamePlayId" ColumnName="GamePlayId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
