@@ -15,7 +15,7 @@ namespace WebAPI.Models
     public partial class PlayerMoveTable
     {
         public int PlayerMoveId { get; set; }
-        public int GameCode { get; set; }
+        public string GameCode { get; set; }
         public int MoveYX { get; set; }
         public int BackColor { get; set; }
     }

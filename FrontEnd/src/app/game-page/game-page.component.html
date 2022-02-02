@@ -27,6 +27,46 @@
                       Multi-Play <span></span>
                     </div>
                   </div>
+                  <div class="col-md-12 text-center" style="cursor: pointer;margin-top: 10px;">
+                    <div class="player-heading" (click)="getLastPlayedGame();" style="background-color: green;color: #fff;padding:10px;;text-transform: uppercase;">
+                      Last Played Game <span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body hide LastPlayedGame">  
+              <h3 style="text-align:center">Last Played Game</h3> 
+              <br/>             
+              <div class="container">
+                <div class="row heading-row">
+                  <div class="col-md-12 text-center">
+                      <table class="table table-bordered table-striped">  
+                        <thead>  
+                            <tr class="text-center text-uppercase">  
+                                <th>GamePlayType</th>  
+                                <th>GameResults</th>  
+                                <th>Date</th>    
+                              </tr>  
+                        </thead>  
+                        <tbody>  
+                          <tr>  
+                            <td>{{this.gamePlayType}}</td>  
+                            <td>{{this.GameResults}}</td>  
+                            <td>{{this.PlayDate}}</td>  
+                          </tr>  
+                        </tbody>  
+                      </table>  
+                 </div>
+                  <div class="row" style="text-align: center;">
+                    <div class="col-md-6 text-center" style="cursor: pointer;">
+                      <button type="submit" (click)="openModal('Multiple','GameType');" class="btn btn-primary px-4">Back</button>  
+                    </div>
+                    <div class="col-md-6 text-center" style="cursor: pointer;">
+                      <button type="submit" (click)="resumeGame(this.GamePlayCode)" class="btn btn-warning px-4">Resume</button>  
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -41,7 +81,7 @@
                   </div>
                   <div class="row" style="text-align: center;">
                     <div class="col-md-6 text-center" style="cursor: pointer;">
-                      <button type="submit" (click)="openModal('Multiple','GameType');" class="btn btn-primary px-4">Back</button>  
+                      <button type="submit" (click)="openModal('LastPlayedGame','GameType');" class="btn btn-primary px-4">Back</button>  
                     </div>
                     <div class="col-md-6 text-center" style="cursor: pointer;">
                       <button type="submit" (click)="openModal('Multiple','GamePlay');SetChallengerUsername()" class="btn btn-primary px-4">Continue</button>  
