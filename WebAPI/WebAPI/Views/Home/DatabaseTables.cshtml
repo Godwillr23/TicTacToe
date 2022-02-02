@@ -1,0 +1,123 @@
+﻿@model WebAPI.Models.DatabaseTables
+
+@{
+    ViewBag.Title = "Database Tables";
+}
+
+<ul class="nav nav-pills" style="margin-top:20px;">
+    <li class="nav-item ">
+        <a class="nav-link active rounded-0" data-toggle="pill" href="#PlayerTable">Player Table</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link rounded-0" data-toggle="pill" href="#GamePlayTable">Game Play Table</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link rounded-0" data-toggle="pill" href="#PlayerMoveTable">Player Move Table</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link rounded-0" data-toggle="pill" href="#SavedGameTable">Saved Games Table</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane container active p-0" id="PlayerTable">
+        <h5 class="text-uppercase p-2 text-center">List of Players</h5>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark text-white">
+                <tr>
+                    <th>@Html.DisplayNameFor(m => Model.players.FirstOrDefault().PlayerId)</th>
+                    <th>@Html.DisplayNameFor(m => Model.players.FirstOrDefault().UserName)</th>
+                    <th>@Html.DisplayNameFor(m => Model.players.FirstOrDefault().Password)</th>
+                    <th>@Html.DisplayNameFor(m => Model.players.FirstOrDefault().isLoggedIn)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.players)
+                {
+                    <tr>
+                        <td>@employee.PlayerId</td>
+                        <td>@employee.UserName</td>
+                        <td>@employee.Password</td>
+                        <td>@employee.isLoggedIn</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane container fade p-0" id="GamePlayTable">
+        <h5 class="text-uppercase p-2 text-center">List of Game Play</h5>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark text-white">
+                <tr>
+                    <th>@Html.DisplayNameFor(m => Model.gameplay.FirstOrDefault().GamePlayId)</th>
+                    <th>@Html.DisplayNameFor(m => Model.gameplay.FirstOrDefault().GameCode)</th>
+                    <th>@Html.DisplayNameFor(m => Model.gameplay.FirstOrDefault().UserName)</th>
+                    <th>@Html.DisplayNameFor(m => Model.gameplay.FirstOrDefault().GamePlayType)</th>
+                    <th>@Html.DisplayNameFor(m => Model.gameplay.FirstOrDefault().GameResults)</th>
+                    <th>@Html.DisplayNameFor(m => Model.gameplay.FirstOrDefault().DateCreated)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.gameplay)
+                {
+                    <tr>
+                        <td>@employee.GamePlayId</td>
+                        <td>@employee.GameCode</td>
+                        <td>@employee.UserName</td>
+                        <td>@employee.GamePlayType</td>
+                        <td>@employee.GameResults</td>
+                        <td>@employee.DateCreated</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane container fade p-0" id="PlayerMoveTable">
+        <h5 class="text-uppercase p-2 text-center">List of Game Moves</h5>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark text-white">
+                <tr>
+                    <th>@Html.DisplayNameFor(m => Model.playmove.FirstOrDefault().PlayerMoveId)</th>
+                    <th>@Html.DisplayNameFor(m => Model.playmove.FirstOrDefault().GameCode)</th>
+                    <th>@Html.DisplayNameFor(m => Model.playmove.FirstOrDefault().MoveYX)</th>
+                    <th>@Html.DisplayNameFor(m => Model.playmove.FirstOrDefault().BackColor)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.playmove)
+                {
+                    <tr>
+                        <td>@employee.PlayerMoveId</td>
+                        <td>@employee.GameCode</td>
+                        <td>@employee.MoveYX</td>
+                        <td>@employee.BackColor</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane container fade p-0" id="SavedGameTable">
+        <h5 class="text-uppercase p-2 text-center">List of Saved Games</h5>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark text-white">
+                <tr>
+                    <th>@Html.DisplayNameFor(m => Model.savegame.FirstOrDefault().SavedGameId)</th>
+                    <th>@Html.DisplayNameFor(m => Model.savegame.FirstOrDefault().GameCode)</th>
+                    <th>@Html.DisplayNameFor(m => Model.savegame.FirstOrDefault().Challenge)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.savegame)
+                {
+                    <tr>
+                        <td>@employee.SavedGameId</td>
+                        <td>@employee.GameCode</td>
+                        <td>@employee.Challenge</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+  
+

@@ -29,8 +29,8 @@ namespace WebAPI.Models
     
         public virtual DbSet<PlayerTable> PlayerTables { get; set; }
         public virtual DbSet<GamePlayTable> GamePlayTables { get; set; }
-        public virtual DbSet<PlayerMoveTable> PlayerMoveTables { get; set; }
         public virtual DbSet<SavedGameTable> SavedGameTables { get; set; }
+        public virtual DbSet<PlayerMoveTable> PlayerMoveTables { get; set; }
     
         public virtual ObjectResult<Usp_Login_Result> Usp_Login(string userName, string password)
         {

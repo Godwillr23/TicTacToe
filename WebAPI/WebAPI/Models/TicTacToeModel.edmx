@@ -22,8 +22,8 @@
           </Key>
           <Property Name="PlayerMoveId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GameCode" Type="varchar" MaxLength="50" />
-          <Property Name="MoveYX" Type="int" Nullable="false" />
-          <Property Name="BackColor" Type="int" Nullable="false" />
+          <Property Name="MoveYX" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BackColor" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="PlayerTable">
           <Key>
@@ -63,8 +63,8 @@
           </FunctionImport>
           <EntitySet Name="PlayerTables" EntityType="TicTacToeDBModel.PlayerTable" />
           <EntitySet Name="GamePlayTables" EntityType="TicTacToeDBModel.GamePlayTable" />
-          <EntitySet Name="PlayerMoveTables" EntityType="TicTacToeDBModel.PlayerMoveTable" />
           <EntitySet Name="SavedGameTables" EntityType="TicTacToeDBModel.SavedGameTable" />
+          <EntitySet Name="PlayerMoveTables" EntityType="TicTacToeDBModel.PlayerMoveTable" />
         </EntityContainer>
         <ComplexType Name="Usp_Login_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -92,15 +92,6 @@
           <Property Name="GameResults" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
-        <EntityType Name="PlayerMoveTable">
-          <Key>
-            <PropertyRef Name="PlayerMoveId" />
-          </Key>
-          <Property Name="PlayerMoveId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GameCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MoveYX" Type="Int32" Nullable="false" />
-          <Property Name="BackColor" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="SavedGameTable">
           <Key>
             <PropertyRef Name="SavedGameId" />
@@ -108,6 +99,15 @@
           <Property Name="SavedGameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GameCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Challenge" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PlayerMoveTable">
+          <Key>
+            <PropertyRef Name="PlayerMoveId" />
+          </Key>
+          <Property Name="PlayerMoveId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MoveYX" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BackColor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -147,6 +147,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SavedGameTables">
+            <EntityTypeMapping TypeName="TicTacToeDBModel.SavedGameTable">
+              <MappingFragment StoreEntitySet="SavedGameTable">
+                <ScalarProperty Name="Challenge" ColumnName="Challenge" />
+                <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+                <ScalarProperty Name="SavedGameId" ColumnName="SavedGameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PlayerMoveTables">
             <EntityTypeMapping TypeName="TicTacToeDBModel.PlayerMoveTable">
               <MappingFragment StoreEntitySet="PlayerMoveTable">
@@ -154,15 +163,6 @@
                 <ScalarProperty Name="MoveYX" ColumnName="MoveYX" />
                 <ScalarProperty Name="GameCode" ColumnName="GameCode" />
                 <ScalarProperty Name="PlayerMoveId" ColumnName="PlayerMoveId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SavedGameTables">
-            <EntityTypeMapping TypeName="TicTacToeDBModel.SavedGameTable">
-              <MappingFragment StoreEntitySet="SavedGameTable">
-                <ScalarProperty Name="Challenge" ColumnName="Challenge" />
-                <ScalarProperty Name="GameCode" ColumnName="GameCode" />
-                <ScalarProperty Name="SavedGameId" ColumnName="SavedGameId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -16,7 +16,7 @@ namespace WebAPI.Models
     {
         public int PlayerMoveId { get; set; }
         public string GameCode { get; set; }
-        public int MoveYX { get; set; }
-        public int BackColor { get; set; }
+        public string MoveYX { get; set; }
+        public string BackColor { get; set; }
     }
 }

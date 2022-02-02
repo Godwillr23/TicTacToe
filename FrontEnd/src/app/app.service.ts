@@ -17,7 +17,7 @@ export class AppService {
   header : any;  
   constructor(private http : HttpClient) {   
   
-    this.Url = 'http://localhost:49444/';  
+    this.Url = 'http://godwillrikh23-001-site1.itempurl.com/';  
   
     const headerSettings: {[name: string]: string | string[]; } = {};  
     this.header = new HttpHeaders(headerSettings);  

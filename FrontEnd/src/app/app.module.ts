@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { HttpClientModule } from '@angular/common/http';  
 import { HttpModule } from '@angular/http'; 
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,10 @@ import { HttpModule } from '@angular/http';
     HttpClientModule,
     HttpModule
   ],
-  providers: [],
+  providers: [
+    { provide: LocationStrategy, useClass: PathLocationStrategy }
+  ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
