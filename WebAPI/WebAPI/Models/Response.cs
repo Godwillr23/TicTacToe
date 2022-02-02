@@ -10,4 +10,14 @@ namespace WebAPI.Models
         public string Status { set; get; }
         public string Message { set; get; }
     }
+
+    public class GetUserId
+    {
+        public int UserId { set; get; }
+    }
+
+    public class GetGamePlayId
+    {
+        public int GamePlayId { set; get; }
+    }
 }

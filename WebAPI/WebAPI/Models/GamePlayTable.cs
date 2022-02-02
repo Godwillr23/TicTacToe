@@ -12,11 +12,13 @@ namespace WebAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PlayerTable
+    public partial class GamePlayTable
     {
-        public int PlayerId { get; set; }
+        public int GamePlayId { get; set; }
+        public string GameCode { get; set; }
         public string UserName { get; set; }
-        public string Password { get; set; }
-        public string isLoggedIn { get; set; }
+        public string GamePlayType { get; set; }
+        public string GameResults { get; set; }
+        public System.DateTime DateCreated { get; set; }
     }
 }

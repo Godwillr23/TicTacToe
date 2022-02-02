@@ -22,26 +22,31 @@ namespace WebAPI.Controllers
     [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
+        TicTacToeDBEntities db = new TicTacToeDBEntities();
         // Register New Account
-       [HttpPost]
-       public object Register(Registration User)  
-       {  
-           try  
-           {  
-               TicTacToeDBEntities db = new TicTacToeDBEntities();  
-               PlayerTable player = new PlayerTable();  
-               if (player.UserId == 0)  
-               {
+        [HttpPost]
+        public object Register(PlayerTable User)
+        {
+            try
+            {
+                PlayerTable player = new PlayerTable();
+                if (player.PlayerId == 0)
+                {
                     bool userAlreadyExists = db.PlayerTables.Any(x => x.UserName == User.UserName);
 
                     if (userAlreadyExists)
                     {
                         return new Response
-                        { Status = "Error", Message = "Invalid - Username already exist." };
+                        {
+                            Status = "Error",
+                            Message = "Invalid - Username already exist."
+                        };
                     }
-                    else {
+                    else
+                    {
                         player.UserName = User.UserName;
                         player.Password = User.Password;
+                        player.isLoggedIn = "N";
 
                         db.PlayerTables.Add(player);
                         db.SaveChanges();
@@ -52,39 +57,43 @@ namespace WebAPI.Controllers
                             Message = "Account Added."
                         };
                     }
-               }  
-           }  
-           catch (Exception)  
-           {  
-               throw;  
-           }  
-           return new Response  
-           { Status = "Error", Message = "Invalid." };  
-       }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return new Response
+            { Status = "Error", Message = "Invalid." };
+        }
 
         //For user login   
         //[HttpPost]
         [HttpPost]
         public Response Login(PlayerTable user)
         {
-            TicTacToeDBEntities DB = new TicTacToeDBEntities();
-
             try
             {
-                var Obj = DB.PlayerTables.Where(a => a.UserName == user.UserName && a.Password == user.Password).FirstOrDefault();
+                var Obj = db.PlayerTables.Where(a => a.UserName == user.UserName && a.Password == user.Password).FirstOrDefault();
 
                 if (Obj != null)
+                {
+                    UpdateLogginStatus(user.UserName, "Y");
+
                     return new Response
                     {
                         Status = "Success",
                         Message = user.UserName
                     };
+                }
                 else
+                {
                     return new Response
                     {
                         Status = "Invalid",
                         Message = "Invalid Username or Password."
                     };
+                }
             }
             catch (Exception e)
             {
@@ -94,6 +103,34 @@ namespace WebAPI.Controllers
                     Message = e.InnerException.ToString()
                 };
             }
+        }
+
+        [HttpPost]
+        public Response Logout(string username)
+        {
+            UpdateLogginStatus(username, "N");
+
+            return new Response
+            {
+                Status = "Success",
+                Message = "Logout Successfully"
+            };
+        }
+
+        protected void UpdateLogginStatus(string Username, string status)
+        {
+            PlayerTable update = (from p in db.PlayerTables
+                                  where p.UserName == Username
+                                  select p).SingleOrDefault();
+
+            update.isLoggedIn = status;
+            db.SaveChanges();
+        }
+        [HttpPost]
+        public IHttpActionResult getUserId(string username)
+        {
+            var user = db.PlayerTables.Where(a => a.UserName == username).FirstOrDefault();
+            return Json(user.PlayerId);
         }
     }
 }

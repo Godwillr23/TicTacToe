@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';    
-import { LoginService } from '../login.service';    
+import { AppService } from '../app.service';    
 import {Register} from '../register';    
 import {Observable} from 'rxjs';    
 import { NgForm, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';    
@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private formbulider: FormBuilder,
-    private loginService:LoginService) 
+    private appService:AppService) 
   { }    
     
   ngOnInit() {    
@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
     this.message = '';
     this.errorMessage = '';
 
-      this.loginService.register(register).subscribe(
+      this.appService.register(register).subscribe(
       regdata => {        
         if(regdata.Status == "Success")    
         {       

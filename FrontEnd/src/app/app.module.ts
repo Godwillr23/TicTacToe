@@ -8,7 +8,8 @@ import { RegisterComponent } from './register/register.component';
 import { GamePageComponent } from './game-page/game-page.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; 
-import { HttpClientModule } from '@angular/common/http';   
+import { HttpClientModule } from '@angular/common/http';  
+import { HttpModule } from '@angular/http'; 
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    HttpModule
   ],
   providers: [],
   bootstrap: [AppComponent]
